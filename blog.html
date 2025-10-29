@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness4Freaks Blog</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        :root {
+            --primary: #2d6a4f;
+            --secondary: #40916c;
+            --accent: #ffd166;
+            --bg: #f7f8fa;
+            --card-bg: #fff;
+            --tag-bg: #e9f5ec;
+            --tag-hover: #40916c;
+            --tag-color: #2d6a4f;
+            --modal-bg: rgba(45,106,79,0.12);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: var(--bg);
+            color: #222;
+            line-height: 1.6;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 4vw;
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary);
+            letter-spacing: 2px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #222;
+            font-weight: 500;
+            transition: color 0.2s, border-bottom 0.2s;
+            padding-bottom: 4px;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-links a.active, .nav-links a:hover {
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+        }
+        .menu-toggle {
+            display: none;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+        .blog-hero {
+            position: relative;
+            min-height: 32vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(120deg, #e9f5ec 0%, #fff 100%);
+            overflow: hidden;
+        }
+        .blog-hero::after {
+            content: "";
+            position: absolute;
+            left: 0; right: 0; bottom: 0;
+            height: 60px;
+            background: url('assets/images/fitness-fun-bg.svg') repeat-x;
+            opacity: 0.2;
+        }
+        .blog-hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: var(--primary);
+            padding: 3rem 2vw;
+        }
+        .blog-hero-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: 2px;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        .blog-hero-content p {
+            font-size: 1.2rem;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+        }
+        .blog-main {
+            display: flex;
+            gap: 2rem;
+            padding: 2rem 4vw;
+            min-height: 60vh;
+        }
+        .blog-sidebar {
+            width: 260px;
+            min-width: 200px;
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 2px 12px rgba(45,106,79,0.06);
+            padding: 1.5rem 1rem;
+            height: fit-content;
+            margin-bottom: 2rem;
+        }
+        .blog-sidebar h3 {
+            color: var(--primary);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+        .category-list {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+        .category-list li {
+            margin-bottom: 0.7rem;
+        }
+        .category-list button {
+            background: var(--tag-bg);
+            color: var(--tag-color);
+            border: none;
+            border-radius: 20px;
+            padding: 0.4rem 1rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+        }
+        .category-list button.active, .category-list button:hover {
+            background: var(--primary);
+            color: #fff;
+        }
+        .search-bar {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .search-bar input {
+            flex: 1;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+        }
+        .search-bar button {
+            padding: 0.5rem 1rem;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .search-bar button:hover {
+            background: var(--secondary);
+        }
+        .blog-grid {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            align-items: stretch;
+        }
+        .blog-card {
+            background: var(--card-bg);
+            border-radius: 18px;
+            box-shadow: 0 2px 12px rgba(45,106,79,0.10);
+            padding: 1.2rem 1rem 1.5rem 1rem;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(40px);
+            animation: fadeInUp 1s forwards;
+        }
+        .blog-card img,
+        .blog-card video {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            background: var(--tag-bg);
+            display: block;
+        }
+        .blog-card .blog-category {
+            display: inline-block;
+            background: var(--tag-bg);
+            color: var(--tag-color);
+            border-radius: 14px;
+            padding: 0.2rem 0.8rem;
+            font-size: 0.9rem;
+            margin-bottom: 0.7rem;
+            transition: background 0.2s, color 0.2s;
+        }
+        .blog-card .blog-category:hover {
+            background: var(--secondary);
+            color: #fff;
+        }
+        .blog-card h3 {
+            font-size: 1.15rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        .blog-card .blog-excerpt {
+            font-size: 0.98rem;
+            color: #444;
+            margin-bottom: 0.7rem;
+        }
+        .blog-card .blog-date {
+            font-size: 0.9rem;
+            color: #888;
+            margin-bottom: 1rem;
+        }
+        .blog-card .read-more-btn {
+            align-self: flex-start;
+            padding: 0.5rem 1.2rem;
+            background: var(--accent);
+            color: var(--primary);
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s, transform 0.2s;
+        }
+        .blog-card:hover {
+            transform: scale(1.04) translateY(-6px);
+            box-shadow: 0 8px 24px rgba(45,106,79,0.18);
+        }
+        .blog-card:hover .read-more-btn {
+            background: var(--primary);
+            color: #fff;
+            transform: scale(1.08);
+        }
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0; top: 0; width: 100vw; height: 100vh;
+            background: var(--modal-bg);
+            align-items: center;
+            justify-content: center;
+        }
+        .modal.active {
+            display: flex;
+            animation: fadeIn 0.3s;
+        }
+        .modal-content {
+            background: #fff;
+            border-radius: 18px;
+            max-width: 500px;
+            width: 90vw;
+            padding: 2rem 1.5rem;
+            box-shadow: 0 8px 32px rgba(45,106,79,0.18);
+            position: relative;
+            animation: fadeInUp 0.5s;
+        }
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .modal-close:hover {
+            background: var(--secondary);
+        }
+        /* Newsletter */
+        .newsletter {
+            padding: 2.5rem 4vw;
+            background: #fff;
+            text-align: center;
+        }
+        .newsletter h2 {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        .newsletter p {
+            color: #555;
+            margin-bottom: 1.2rem;
+        }
+        #newsletter-form {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        #newsletter-form input[type="email"] {
+            padding: 0.7rem 1rem;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            font-size: 1rem;
+            width: 220px;
+        }
+        #newsletter-form button {
+            padding: 0.7rem 1.5rem;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        #newsletter-form button:hover {
+            background: var(--secondary);
+        }
+        #newsletter-message {
+            color: var(--primary);
+            font-size: 1rem;
+            margin-top: 0.5rem;
+        }
+        footer {
+            background: var(--primary);
+            color: #fff;
+            padding: 1.5rem 4vw;
+            text-align: center;
+        }
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.7rem;
+        }
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+        .social-links img {
+            width: 28px;
+            height: 28px;
+            filter: brightness(0) invert(1);
+            transition: filter 0.2s;
+        }
+        .social-links a:hover img {
+            filter: brightness(0.8) invert(0.7) sepia(1) hue-rotate(90deg);
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        @keyframes fadeIn {
+            from { opacity: 0;}
+            to { opacity: 1;}
+        }
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .blog-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 900px) {
+            .blog-main {
+                flex-direction: column;
+            }
+            .blog-sidebar {
+                width: 100%;
+                margin-bottom: 2rem;
+            }
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (max-width: 600px) {
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 1rem 4vw;
+            }
+            .nav-links {
+                flex-direction: column;
+                gap: 1rem;
+                width: 100%;
+                display: none;
+                background: #fff;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+                padding: 1rem 0;
+            }
+            .nav-links.active {
+                display: flex;
+            }
+            .menu-toggle {
+                display: block;
+            }
+            .blog-hero-content {
+                padding: 2rem 2vw;
+            }
+            .blog-main, .newsletter {
+                padding: 2rem 2vw;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">Fitness4Freaks</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="shoppage.html">Shop</a></li>
+            <li><a href="aboutus.html">About Us</a></li>
+            <li><a href="blog.html" class="active">Blog</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div class="menu-toggle" id="mobile-menu">&#9776;</div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="blog-hero">
+        <div class="blog-hero-content">
+            <h1>Fitness4Freaks Blog</h1>
+            <p>Tips, Tricks &amp; Fun for Fitness Freaks</p>
+        </div>
+    </section>
+
+    <!-- Blog Main Section -->
+    <div class="blog-main">
+        <!-- Sidebar -->
+        <aside class="blog-sidebar">
+            <h3>Filter by Category</h3>
+            <ul class="category-list">
+                <li><button class="active" data-category="all">All</button></li>
+                <li><button data-category="Workouts">Workouts</button></li>
+                <li><button data-category="Nutrition">Nutrition</button></li>
+                <li><button data-category="Motivation">Motivation</button></li>
+            </ul>
+            <form class="search-bar" id="search-form">
+                <input type="text" id="search-input" placeholder="Search posts...">
+                <button type="submit">Search</button>
+            </form>
+        </aside>
+        <!-- Blog Grid -->
+        <section class="blog-grid" id="blog-grid">
+            <!-- Blog Post Cards -->
+            <div class="blog-card" data-category="Workouts" data-title="5 Home Workouts for Busy People" data-excerpt="No time for the gym? Try these 5 quick and effective home workouts to stay fit and energized. Perfect for busy schedules and all fitness levels." data-date="2025-10-01">
+                <img src="Small home gym inspo.jpg" alt="Home Workouts">
+                <span class="blog-category">Workouts</span>
+                <h3>5 Home Workouts for Busy People</h3>
+                <div class="blog-excerpt">No time for the gym? Try these 5 quick and effective home workouts to stay fit and energized. Perfect for busy schedules and all fitness levels.</div>
+                <div class="blog-date">Oct 1, 2025</div>
+                <button class="read-more-btn">Read More</button>
+                <div class="blog-full" style="display:none;">
+                    <p>Staying fit doesn't have to mean spending hours at the gym. With these 5 home workouts, you can get a great sweat in just 20 minutes a day. From HIIT to yoga, we've got you covered. Each routine is designed for maximum results in minimum time!</p>
+                </div>
+            </div>
+            <div class="blog-card" data-category="Nutrition" data-title="Top 7 Healthy Snacks for Fitness Freaks" data-excerpt="Fuel your workouts and recovery with these delicious, nutritious snacks. Easy to prepare and perfect for on-the-go energy." data-date="2025-09-20">
+                <img src="Healthy Snacks to Avoid Cravings.jpg" alt="Healthy Snacks">
+                <span class="blog-category">Nutrition</span>
+                <h3>Top 7 Healthy Snacks for Fitness Freaks</h3>
+                <div class="blog-excerpt">Fuel your workouts and recovery with these delicious, nutritious snacks. Easy to prepare and perfect for on-the-go energy.</div>
+                <div class="blog-date">Sep 20, 2025</div>
+                <button class="read-more-btn">Read More</button>
+                <div class="blog-full" style="display:none;">
+                    <p>Snacking smart is key to maintaining energy and supporting muscle growth. Discover our top 7 picks for healthy snacks that are tasty, easy to make, and packed with nutrients. From protein balls to veggie chips, these snacks will keep you fueled all day!</p>
+                </div>
+            </div>
+            <div class="blog-card" data-category="Motivation" data-title="How to Stay Motivated All Year Round" data-excerpt="Struggling to keep your fitness goals on track? Learn our top tips for staying motivated, even when life gets busy or tough." data-date="2025-08-15">
+                <video src="gym vid.mp4" autoplay loop muted playsinline style="width:100%;height:140px;object-fit:cover;border-radius:12px;margin-bottom:1rem;background:var(--tag-bg);"></video>
+                <span class="blog-category">Motivation</span>
+                <h3>How to Stay Motivated All Year Round</h3>
+                <div class="blog-excerpt">Struggling to keep your fitness goals on track? Learn our top tips for staying motivated, even when life gets busy or tough.</div>
+                <div class="blog-date">Aug 15, 2025</div>
+                <button class="read-more-btn">Read More</button>
+                <div class="blog-full" style="display:none;">
+                    <p>Motivation can be tough to maintain, but with the right strategies, you can keep your fitness journey exciting and rewarding. Set realistic goals, celebrate small wins, and find a workout buddy to keep you accountable. Remember, progress is a journey!</p>
+                </div>
+            </div>
+            <div class="blog-card" data-category="Workouts" data-title="Beginner’s Guide to Resistance Bands" data-excerpt="Discover how resistance bands can transform your workouts. Learn basic exercises and tips for getting started." data-date="2025-07-30">
+                <img src="resistance.jpg" alt="Resistance Bands">
+                <span class="blog-category">Workouts</span>
+                <h3>Beginner’s Guide to Resistance Bands</h3>
+                <div class="blog-excerpt">Discover how resistance bands can transform your workouts. Learn basic exercises and tips for getting started.</div>
+                <div class="blog-date">Jul 30, 2025</div>
+                <button class="read-more-btn">Read More</button>
+                <div class="blog-full" style="display:none;">
+                    <p>Resistance bands are versatile, affordable, and perfect for all fitness levels. In this guide, we cover the basics, show you simple exercises, and share tips for making the most of your bands. Get ready to level up your strength training!</p>
+                </div>
+            </div>
+            <div class="blog-card" data-category="Nutrition" data-title="Hydration Hacks for Active Lifestyles" data-excerpt="Stay hydrated and energised with these simple hacks. Learn how much water you really need and how to make hydration fun." data-date="2025-06-10">
+                <img src="hydration.jpg" alt="Hydration Hacks">
+                <span class="blog-category">Nutrition</span>
+                <h3>Hydration Hacks for Active Lifestyles</h3>
+                <div class="blog-excerpt">Stay hydrated and energised with these simple hacks. Learn how much water you really need and how to make hydration fun.</div>
+                <div class="blog-date">Jun 10, 2025</div>
+                <button class="read-more-btn">Read More</button>
+                <div class="blog-full" style="display:none;">
+                    <p>Hydration is essential for peak performance. Discover easy ways to drink more water, track your intake, and add flavour to your routine. These hacks will help you stay refreshed and ready for every workout!</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modal for Blog Post Preview -->
+    <div class="modal" id="blog-modal">
+        <div class="modal-content" id="modal-content">
+            <button class="modal-close" id="modal-close">&times;</button>
+            <!-- Modal content will be injected by JS -->
+        </div>
+    </div>
+
+    <!-- Newsletter Signup Section -->
+    <section class="newsletter">
+        <h2>Subscribe to Fitness4Freaks Blog</h2>
+        <p>Get the latest tips, tricks, and fun delivered to your inbox!</p>
+        <form id="newsletter-form">
+            <input type="email" placeholder="Enter your email" required>
+            <button type="submit">Subscribe</button>
+        </form>
+        <div id="newsletter-message"></div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <span>&copy; 2025 Fitness4Freaks. All rights reserved.</span>
+            <div class="social-links">
+                <a href="https://www.instagram.com/fitness4freaks.co/?utm_source=ig_web_button_share_sheet" aria-label="Instagram">
+                    <img src="assets/images/instagram.svg" alt="Instagram">
+                </a>
+                <a href="#" aria-label="Facebook">
+                    <img src="assets/images/facebook.svg" alt="Facebook">
+                </a>
+                <a href="#" aria-label="Twitter">
+                    <img src="assets/images/twitter.svg" alt="Twitter">
+                </a>
+            </div>
+        </div>
+    </footer>
+    <script src="assets/js/main.js"></script>
+    <script>
+        // Mobile navigation toggle
+        const menuToggle = document.getElementById('mobile-menu');
+        const navLinks = document.querySelector('.nav-links');
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Newsletter form submission
+        const newsletterForm = document.getElementById('newsletter-form');
+        const newsletterMsg = document.getElementById('newsletter-message');
+        newsletterForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = newsletterForm.querySelector('input[type="email"]').value;
+            if (email) {
+                newsletterMsg.textContent = "Thank you for subscribing!";
+                newsletterForm.reset();
+                setTimeout(() => newsletterMsg.textContent = "", 4000);
+            }
+        });
+
+        // Blog card fade-in on scroll
+        function fadeInOnScroll() {
+            const cards = document.querySelectorAll('.blog-card');
+            cards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                if (rect.top < window.innerHeight - 60) {
+                    card.style.opacity = 1;
+                    card.style.transform = 'translateY(0)';
+                }
+            });
+        }
+        window.addEventListener('scroll', fadeInOnScroll);
+        window.addEventListener('load', fadeInOnScroll);
+
+        // Category filter
+        const categoryButtons = document.querySelectorAll('.category-list button');
+        const blogCards = document.querySelectorAll('.blog-card');
+        categoryButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                categoryButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const cat = btn.getAttribute('data-category');
+                blogCards.forEach(card => {
+                    if (cat === 'all' || card.getAttribute('data-category') === cat) {
+                        card.style.display = '';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                fadeInOnScroll();
+            });
+        });
+
+        // Search filter
+        document.getElementById('search-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const keyword = document.getElementById('search-input').value.toLowerCase();
+            blogCards.forEach(card => {
+                const title = card.getAttribute('data-title').toLowerCase();
+                const excerpt = card.getAttribute('data-excerpt').toLowerCase();
+                if (title.includes(keyword) || excerpt.includes(keyword)) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            fadeInOnScroll();
+        });
+
+        // Modal for blog post preview
+        const modal = document.getElementById('blog-modal');
+        const modalContent = document.getElementById('modal-content');
+        const modalClose = document.getElementById('modal-close');
+        document.querySelectorAll('.read-more-btn').forEach((btn, idx) => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const card = btn.closest('.blog-card');
+                // Check for video or image
+                let mediaHtml = '';
+                const video = card.querySelector('video');
+                const img = card.querySelector('img');
+                if (video) {
+                    mediaHtml = `<video src="${video.getAttribute('src')}" autoplay loop muted playsinline style="width:100%;height:160px;object-fit:cover;border-radius:12px;margin-bottom:1rem;background:var(--tag-bg);"></video>`;
+                } else if (img) {
+                    mediaHtml = `<img src="${img.src}" alt="${card.querySelector('h3').textContent}" style="width:100%;height:160px;object-fit:cover;border-radius:12px;margin-bottom:1rem;">`;
+                }
+                const title = card.querySelector('h3').textContent;
+                const category = card.querySelector('.blog-category').textContent;
+                const date = card.querySelector('.blog-date').textContent;
+                const full = card.querySelector('.blog-full').innerHTML;
+                modalContent.innerHTML = `
+                    <button class="modal-close" id="modal-close">&times;</button>
+                    ${mediaHtml}
+                    <span class="blog-category" style="background:var(--primary);color:#fff;">${category}</span>
+                    <h3 style="color:var(--primary);margin-top:0.7rem;">${title}</h3>
+                    <div class="blog-date" style="color:#888;margin-bottom:1rem;">${date}</div>
+                    <div style="font-size:1rem;color:#444;">${full}</div>
+                `;
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                // Re-attach close event
+                document.getElementById('modal-close').onclick = function() {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = '';
+                };
+            });
+        });
+        modalClose.addEventListener('click', function() {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+        window.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    </script>
+</body>
+</html>

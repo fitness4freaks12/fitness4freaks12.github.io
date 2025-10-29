@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQs | Fitness4Freaks</title>
+    <style>
+        :root {
+            --primary: #181f1b;
+            --accent: #2d6a4f;
+            --accent-light: #40916c;
+            --white: #fff;
+            --input-bg: #222;
+            --input-border: #40916c;
+            --shadow: 0 4px 24px rgba(45,106,79,0.10);
+        }
+        body {
+            background: var(--primary);
+            color: var(--white);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 900px;
+            margin: 3rem auto 0 auto;
+            background: #1a1f1b;
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            padding: 2.5rem 1.5rem 2rem 1.5rem;
+        }
+        .faqs-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+        .faqs-header h1 {
+            font-size: 2.5rem;
+            color: var(--accent-light);
+            margin-bottom: 0.5rem;
+            letter-spacing: 2px;
+        }
+        .faqs-header p {
+            color: #bdbdbd;
+            font-size: 1.15rem;
+        }
+        .faq-section {
+            margin-bottom: 2.5rem;
+        }
+        .faq-group {
+            margin-bottom: 2.2rem;
+        }
+        .faq-category {
+            color: var(--accent-light);
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .faq-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .faq-item {
+            margin-bottom: 1.1rem;
+        }
+        .faq-q {
+            background: #222;
+            color: var(--accent-light);
+            border: none;
+            border-radius: 14px;
+            padding: 1rem 1.2rem;
+            font-size: 1.08rem;
+            font-weight: 500;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: background 0.2s, color 0.2s;
+            outline: none;
+            position: relative;
+        }
+        .faq-q:hover, .faq-q.active {
+            background: var(--accent-light);
+            color: var(--primary);
+        }
+        .faq-a {
+            background: #222;
+            color: #bdbdbd;
+            border-radius: 0 0 14px 14px;
+            box-shadow: var(--shadow);
+            padding: 1rem 1.2rem;
+            font-size: 1.01rem;
+            margin-top: -2px;
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+        .faq-a.open {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        .faqs-nav {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+        .faqs-nav a {
+            display: inline-block;
+            background: var(--accent-light);
+            color: var(--primary);
+            font-weight: bold;
+            border-radius: 16px;
+            padding: 0.8rem 2rem;
+            font-size: 1.1rem;
+            text-decoration: none;
+            box-shadow: var(--shadow);
+            transition: background 0.2s, color 0.2s, transform 0.2s;
+            margin: 0.5rem;
+        }
+        .faqs-nav a:hover {
+            background: var(--accent);
+            color: var(--white);
+            transform: scale(1.04);
+        }
+        /* Footer */
+        footer {
+            background: #181f1b;
+            color: var(--accent-light);
+            padding: 2rem 0 1rem 0;
+            margin-top: 3rem;
+            border-radius: 24px 24px 0 0;
+            box-shadow: var(--shadow);
+        }
+        .footer-nav {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        .footer-nav a {
+            color: var(--accent-light);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.05rem;
+            padding: 0.3rem 0.7rem;
+            border-radius: 12px;
+            transition: background 0.2s, color 0.2s;
+        }
+        .footer-nav a:hover {
+            background: var(--accent-light);
+            color: var(--primary);
+        }
+        .footer-copy {
+            text-align: center;
+            color: #bdbdbd;
+            font-size: 0.95rem;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 0.7rem;
+                border-radius: 0;
+            }
+            .faqs-header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="faqs-header">
+            <h1>Fitness4Freaks – Frequently Asked Questions</h1>
+            <p>Find answers to our most common questions about products, shipping, payments, sizing, and more. Still need help? <a href="contact.html" style="color:var(--accent-light);text-decoration:underline;">Contact us</a> anytime!</p>
+        </div>
+        <div class="faqs-nav">
+            <a href="index.html">Home</a>
+            <a href="shoppage.html">Shop</a>
+            <a href="aboutus.html">About</a>
+            <a href="blog.html">Blog</a>
+            <a href="contact.html">Contact</a>
+        </div>
+        <section class="faq-section">
+            <div class="faq-group">
+                <div class="faq-category">💬 Ordering & Products</div>
+                <ul class="faq-list">
+                    <li class="faq-item">
+                        <button class="faq-q">Are your products original and good quality?</button>
+                        <div class="faq-a">Yes! We partner with trusted UK and international suppliers who provide high-quality gym gear, apparel, and accessories. Every product is checked for quality before it’s shipped out to you.</div>
+                    </li>
+                    <li class="faq-item">
+                        <button class="faq-q">Do you restock sold-out items?</button>
+                        <div class="faq-a">Absolutely! Popular products are often restocked. You can also subscribe to our newsletter or follow our Instagram @fitness4freaks for updates on restocks and new drops.</div>
+                    </li>
+                    <li class="faq-item">
+                        <button class="faq-q">Can I cancel or change my order after placing it?</button>
+                        <div class="faq-a">Orders are processed quickly, but if you contact us within 12 hours of placing your order, we’ll do our best to cancel or update it before shipping begins.</div>
+                    </li>
+                </ul>
+            </div>
+            <div class="faq-group">
+                <div class="faq-category">🚚 Shipping & Delivery</div>
+                <ul class="faq-list">
+                    <li class="faq-item">
+                        <button class="faq-q">How long does shipping take?</button>
+                        <div class="faq-a">Our average delivery time is 5–10 business days depending on the supplier’s location and your shipping address in the UK. International orders may take slightly longer.</div>
+                    </li>
+                    <li class="faq-item">
+                        <button class="faq-q">How much is shipping?</button>
+                        <div class="faq-a">We offer free standard shipping on most orders over £40. For smaller orders, a small delivery fee may apply (shown at checkout).</div>
+                    </li>
+                    <li class="faq-item">
+                        <button class="faq-q">How can I track my order?</button>
+                        <div class="faq-a">Once your order ships, you’ll receive a tracking link via email so you can follow your package in real-time.</div>
+                    </li>
+                </ul>
+            </div>
+            <div class="faq-group">
+                <div class="faq-category">💵 Payments & Refunds</div>
+                <ul class="faq-list">
+                    <li class="faq-item">
+                        <button class="faq-q">What payment methods do you accept?</button>
+                        <div class="faq-a">We accept all major credit and debit cards, PayPal, Apple Pay, and Google Pay (depending on your device).</div>
+                    </li>
+                    <li class="faq-item">
+                        <button class="faq-q">What if my order arrives damaged or incorrect?</button>
+                        <div class="faq-a">Don’t worry — just contact us at support@fitness4freaks.co.uk within 7 days of delivery. We’ll arrange a replacement or refund right away.</div>
+                    </li>
+                    <li class="faq-item">
+                        <button class="faq-q">Do you offer refunds?</button>
+                        <div class="faq-a">Yes, we offer refunds on eligible items within 14 days of delivery. The product must be unused and in its original packaging.</div>
+                    </li>
+                </ul>
+            </div>
+            <div class="faq-group">
+                <div class="faq-category">👕 Sizing & Product Info</div>
+                <ul class="faq-list">
+                    <li class="faq-item">
+                        <button class="faq-q">How do I choose the right size?</button>
+                        <div class="faq-a">Each product page includes a size guide. We recommend checking it carefully before ordering to ensure the perfect fit.</div>
+                    </li>
+                    <li class="faq-item">
+                        <button class="faq-q">Are your products unisex?</button>
+                        <div class="faq-a">Many of our items are unisex, especially accessories and gear. Apparel items are labelled clearly for men, women, or unisex.</div>
+                    </li>
+                </ul>
+            </div>
+            <div class="faq-group">
+                <div class="faq-category">📦 Other Questions</div>
+                <ul class="faq-list">
+                    <li class="faq-item">
+                        <button class="faq-q">Where are you based?</button>
+                        <div class="faq-a">We’re a UK-based fitness brand passionate about helping gym lovers find quality products at affordable prices.</div>
+                    </li>
+                    <li class="faq-item">
+                        <button class="faq-q">Do you collaborate with fitness influencers?</button>
+                        <div class="faq-a">Yes! We love partnering with motivated fitness creators. Email us at collab@fitness4freaks.co.uk with your socials and let’s connect.</div>
+                    </li>
+                    <li class="faq-item">
+                        <button class="faq-q">How can I contact you?</button>
+                        <div class="faq-a">You can reach us anytime via our Contact page or email support@fitness4freaks.co.uk — we’ll reply within 24–48 hours.</div>
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </div>
+    <footer>
+        <nav class="footer-nav">
+            <a href="index.html">Home</a>
+            <a href="shoppage.html">Shop</a>
+            <a href="Aboutus.html">About</a>
+            <a href="blog.html">Blog</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+        <div class="footer-copy">
+            &copy; 2025 Fitness4Freaks. All rights reserved.
+        </div>
+    </footer>
+    <script>
+        // FAQ expand/collapse
+        document.querySelectorAll('.faq-q').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var answer = btn.nextElementSibling;
+                var isOpen = answer.classList.contains('open');
+                document.querySelectorAll('.faq-a').forEach(function(a) { a.classList.remove('open'); });
+                document.querySelectorAll('.faq-q').forEach(function(q) { q.classList.remove('active'); });
+                if (!isOpen) {
+                    answer.classList.add('open');
+                    btn.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

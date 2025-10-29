@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness4Freaks - Shop</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f7f8fa;
+            color: #222;
+            line-height: 1.6;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 4vw;
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2d6a4f;
+            letter-spacing: 2px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #222;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover {
+            color: #2d6a4f;
+        }
+        .menu-toggle {
+            display: none;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+        .shop-header {
+            text-align: center;
+            padding: 3rem 4vw 1rem 4vw;
+            background: linear-gradient(90deg, #e9f5ec 60%, #fff 100%);
+        }
+        .shop-header h1 {
+            font-size: 2.5rem;
+            color: #2d6a4f;
+            margin-bottom: 0.5rem;
+        }
+        .shop-header p {
+            color: #555;
+            font-size: 1.1rem;
+        }
+        .filters-sort {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 1rem 4vw 0 4vw;
+            flex-wrap: wrap;
+        }
+        .filters-sort select {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+            background: #fff;
+            color: #222;
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            padding: 2rem 4vw;
+        }
+        .product-card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 2px 12px rgba(45,106,79,0.06);
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            animation: fadeInUp 1s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .product-card:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 8px 24px rgba(45,106,79,0.12);
+        }
+        .product-card img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            background: #e9f5ec;
+        }
+        .product-card h3 {
+            font-size: 1.1rem;
+            color: #222;
+            margin-bottom: 0.5rem;
+        }
+        .product-card p {
+            font-size: 0.95rem;
+            color: #555;
+            margin-bottom: 0.5rem;
+        }
+        .price {
+            display: block;
+            font-size: 1.1rem;
+            color: #2d6a4f;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        .product-btn {
+            display: inline-block;
+            padding: 0.5rem 1.2rem;
+            background: #2d6a4f;
+            color: #fff;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: background 0.2s;
+        }
+        .product-btn:hover {
+            background: #40916c;
+        }
+        .newsletter {
+            padding: 2.5rem 4vw;
+            background: #fff;
+            text-align: center;
+        }
+        .newsletter h2 {
+            font-size: 1.5rem;
+            color: #2d6a4f;
+            margin-bottom: 0.5rem;
+        }
+        .newsletter p {
+            color: #555;
+            margin-bottom: 1.2rem;
+        }
+        #newsletter-form {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        #newsletter-form input[type="email"] {
+            padding: 0.7rem 1rem;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            font-size: 1rem;
+            width: 220px;
+        }
+        #newsletter-form button {
+            padding: 0.7rem 1.5rem;
+            background: #2d6a4f;
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        #newsletter-form button:hover {
+            background: #40916c;
+        }
+        #newsletter-message {
+            color: #2d6a4f;
+            font-size: 1rem;
+            margin-top: 0.5rem;
+        }
+        footer {
+            background: #2d6a4f;
+            color: #fff;
+            padding: 1.5rem 4vw;
+            text-align: center;
+        }
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.7rem;
+        }
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+        .social-links img {
+            width: 28px;
+            height: 28px;
+            filter: brightness(0) invert(1);
+            transition: filter 0.2s;
+        }
+        .social-links a:hover img {
+            filter: brightness(0.8) invert(0.7) sepia(1) hue-rotate(90deg);
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        @media (max-width: 1024px) {
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 600px) {
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 1rem 4vw;
+            }
+            .nav-links {
+                flex-direction: column;
+                gap: 1rem;
+                width: 100%;
+                display: none;
+                background: #fff;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+                padding: 1rem 0;
+            }
+            .nav-links.active {
+                display: flex;
+            }
+            .menu-toggle {
+                display: block;
+            }
+            .shop-header {
+                padding: 2rem 2vw 1rem 2vw;
+            }
+            .filters-sort {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+                padding: 1rem 2vw 0 2vw;
+            }
+            .product-grid {
+                grid-template-columns: 1fr;
+                padding: 2rem 2vw;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">Fitness4Freaks</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="shoppage.html">Shop</a></li>
+            <li><a href="aboutus.html">About Us</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div class="menu-toggle" id="mobile-menu">&#9776;</div>
+    </nav>
+
+    <!-- Shop Header -->
+    <section class="shop-header">
+        <h1>Shop Fitness Products</h1>
+        <p>Affordable UK dropshipping fitness gear for every lifestyle.</p>
+    </section>
+
+    <!-- Filters and Sorting -->
+    <div class="filters-sort">
+        <select id="category-filter">
+            <option value="all">All Categories</option>
+            <option value="weights">Weights</option>
+            <option value="rollers">Rollers</option>
+            <option value="swimming">Swimming</option>
+            <option value="accessories">Accessories</option>
+        </select>
+        <select id="sort-filter">
+            <option value="default">Sort By</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+        </select>
+    </div>
+
+    <!-- Product Grid -->
+    <section class="product-grid" id="product-grid">
+        <!-- Updated Amazon affiliate product cards -->
+        <div class="product-card" data-category="weights" data-price="34.99">
+            <img src="adjustable dumbbells.jpg" alt="Adjustable Dumbbells">
+            <h3>Adjustable Dumbbells</h3>
+            <p>Versatile weights for strength training at home or gym.</p>
+            <span class="price">£26.99</span>
+            <a href="https://amzn.to/4oGy2Ib" class="product-btn" target="_blank">Buy Now</a>
+        </div>
+        <div class="product-card" data-category="accessories" data-price="19.99">
+            <img src="HAKENO 2x24 40kg Pair Adjustable Dumbbell 15 Weight in 1 with Fast Automatic Adjustable and Weight Plate for Body Workout Home Gym dumbbell.jpg" alt="Yoga Mat">
+            <h3>HAKENO Adjustable Dumbbell </h3>
+            <p>2x24 40kg Pair, 15 Weight in 1</p>
+            <span class="price">£165.98</span>
+            <a href="https://amzn.to/4qwnL33" class="product-btn" target="_blank">Buy Now</a>
+        </div>
+        <div class="product-card" data-category="accessories" data-price="14.99">
+            <img src="Mirafit M150 Fully Adjustable Flat & Incline Weight Bench - Black.jpg" alt="Resistance Bands Set">
+            <h3>Mirafit M150 Fully Adjustable Flat & Incline Weight Bench</h3>
+            <p>6 backrest angles and 4 seat angles - Suitable for flat and incline exercises,</p>
+            <span class="price">£159.99</span>
+            <a href="https://amzn.to/3JlzXmM" class="product-btn" target="_blank">Buy Now</a>
+        </div>
+        <div class="product-card" data-category="weights" data-price="24.99">
+            <img src="PASYOU 4 in1 Dumbbells Set,Adjustable Dumbbell Set for Gym Used as Barbell, Kettlebells,Push up Stand Dumbbell Body Building 20KG.jpg" alt="Kettlebell">
+            <h3>PASYOU 4 in1 Dumbbells Set,Adjustable Dumbbell Set for Gym </h3>
+            <p>Used as Barbell, Kettlebells,Push up Stand Dumbbell Body Building.</p>
+            <span class="price">£89.99</span>
+            <a href="https://amzn.to/48RM2dM" class="product-btn" target="_blank">Buy Now</a>
+        </div>
+        <div class="product-card" data-category="rollers" data-price="12.99">
+            <img src="Sportneer Dumbbells Set Women Each 2 to 5lbs 0.9 to 2.3kg, 4 in 1 Weights Dumbbells Set, Weights for Women, Adjustable Dumbbell Pair for Home Gym Fitness Training.jpg" alt="Foam Roller">
+            <h3>Sportneer Dumbbells Set Women </h3>
+            <p>Each 2 to 5lbs 0.9 to 2.3kg, 4 in 1 Weights Dumbbells Set</p>
+            <span class="price">£39.99</span>
+            <a href="https://amzn.to/4oKua9p" class="product-btn" target="_blank">Buy Now</a>
+        </div>
+        <div class="product-card" data-category="weights" data-price="16.99">
+            <img src="Xn8 Sports Yoga mat 10mm & 15mm Thick NBR Exercise Mat Non Tearable Pilates Mat with Extra Carry Strap Yoga Mats for Women Men.jpg" alt="Ankle Weights">
+            <h3>Xn8 Sports Yoga mat 10mm & 15mm Thick NBR Exercise Mat </h3>
+            <p>Non Tearable Pilates Mat with Extra Carry Strap</p>
+            <span class="price">£11.99</span>
+            <a href="https://amzn.to/47sE73Z" class="product-btn" target="_blank">Buy Now</a>
+        </div>
+        <div class="product-card" data-category="weights" data-price="11.99">
+            <img src="aqlbhz Yoga Mats for Women & Men Foldable Workout Mat Double Sided Non Slip 183 61cm Travel Exercise Mat  Rosa Suitable for Home & Outdoor Use.jpg" alt="Ab Roller">
+            <h3>Yoga Mats for Women & Men Foldable Workout Mat </h3>
+            <p>Double Sided Non Slip 183 61cm</p>
+            <span class="price">£12.58</span>
+            <a href="https://amzn.to/4hxlT63" class="product-btn" target="_blank">Buy Now</a>
+        </div>
+        <div class="product-card" data-category="accessories" data-price="9.99">
+            <img src="Amazon Basics Cast Iron Kettlebell.jpg" alt="Jump Rope">
+            <h3>Cast Iron Kettlebell</h3>
+            <p>Durable kettlebell for cardio and strength exercises</p>
+            <span class="price">£15.02</span>
+            <a href="https://amzn.to/4ns37hV" class="product-btn" target="_blank">Buy Now</a>
+        </div>
+        <div class="product-card" data-category="accessories" data-price="13.99">
+            <img src="EXTREME FITNESS Cast Iron Kettlebells Weight Strength Training Workout Gym 4kg to 32kg.jpg" alt="Water Bottle">
+            <h3>EXTREME FITNESS Cast Iron Kettlebells </h3>
+            <p>Weight Strength Training Workout Gym 4kg to 32kg</p>
+            <span class="price">£19.99</span>
+            <a href="https://amzn.to/43AHZ1J" class="product-btn" target="_blank">Buy Now</a>
+        </div>
+        <div class="product-card" data-category="accessories" data-price="22.99">
+            <img src="YOTTOY Soft Kettlebell Kettlebell Anti Slip Grip Weight for Home Workouts Kettlebells Set Strength and Safety Guaranteed.jpg" alt="Gym Bag">
+            <h3>YOTTOY Soft Kettlebell Kettlebell Anti Slip Grip Weight for Home Workouts</h3>
+            <p>Kettlebells Set Strength and Safety Guaranteed.</p>
+            <span class="price">£15.18</span>
+            <a href="https://amzn.to/4ow0Svz" class="product-btn" target="_blank">Buy Now</a>
+        </div>
+        <div class="product-card" data-category="accessories" data-price="29.99">
+            <img src="Gritin Resistance Bands Set of 5 Skin-Friendly Resistance Fitness Exercise Loop Bands with 5 Different Strength Levels.jpg" alt="Fitness Tracker">
+            <h3>Gritin Resistance Bands Set of 5 Skin-Friendly Resistance </h3>
+            <p>Fitness Exercise Loop Bands with 5 Different Strength Levels.</p>
+            <span class="price">£7.99</span>
+            <a href="https://amzn.to/4of3HAV" class="product-btn" target="_blank">Buy Now</a>
+        </div>
+        <div class="product-card" data-category="rollers" data-price="8.99">
+            <img src="Vexloria Resistance Bands 5 Levels Resistance Pull Up Bands Set with Door Anchor Handles Pull Up Assistance Bands for Calisthenics Bodyweight Training.jpg" alt="Massage Ball">
+            <h3>Vexloria Resistance Bands 5 Levels Resistance Pull Up Bands</h3>
+            <p>Set with Door Anchor Handles Pull Up Assistance Bands for Calisthenics Bodyweight Training</p>
+            <span class="price">£18.99</span>
+            <a href="https://amzn.to/3WsyKgh" class="product-btn" target="_blank">Buy Now</a>
+        </div>
+    </section>
+
+    <!-- Newsletter Subscription -->
+    <section class="newsletter">
+        <h2>Stay Updated</h2>
+        <p>Subscribe for exclusive offers, tips, and new arrivals.</p>
+        <form id="newsletter-form">
+            <input type="email" placeholder="Enter your email" required>
+            <button type="submit">Subscribe</button>
+        </form>
+        <div id="newsletter-message"></div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <span>&copy; 2025 Fitness4Freaks. All rights reserved.</span>
+            <div class="social-links">
+                <a href="https://www.instagram.com/fitness4freaks.co/?utm_source=ig_web_button_share_sheet" aria-label="Instagram">
+                    <img src="assets/images/instagram.svg" alt="Instagram">
+                </a>
+                <a href="#" aria-label="Facebook">
+                    <img src="assets/images/facebook.svg" alt="Facebook">
+                </a>
+                <a href="#" aria-label="Twitter">
+                    <img src="assets/images/twitter.svg" alt="Twitter">
+                </a>
+            </div>
+        </div>
+    </footer>
+    <script src="assets/js/main.js"></script>
+    <script>
+        // Mobile navigation toggle
+        const menuToggle = document.getElementById('mobile-menu');
+        const navLinks = document.querySelector('.nav-links');
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Newsletter form submission
+        const newsletterForm = document.getElementById('newsletter-form');
+        const newsletterMsg = document.getElementById('newsletter-message');
+        newsletterForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = newsletterForm.querySelector('input[type="email"]').value;
+            if (email) {
+                newsletterMsg.textContent = "Thank you for subscribing!";
+                newsletterForm.reset();
+                setTimeout(() => newsletterMsg.textContent = "", 4000);
+            }
+        });
+
+        // Filtering and sorting
+        const categoryFilter = document.getElementById('category-filter');
+        const sortFilter = document.getElementById('sort-filter');
+        const productGrid = document.getElementById('product-grid');
+        let products = Array.from(productGrid.children);
+
+        categoryFilter.addEventListener('change', filterAndSortProducts);
+        sortFilter.addEventListener('change', filterAndSortProducts);
+
+        function filterAndSortProducts() {
+            let category = categoryFilter.value;
+            let sort = sortFilter.value;
+
+            let filtered = products.filter(card => {
+                if (category === 'all') return true;
+                return card.getAttribute('data-category') === category;
+            });
+
+            if (sort === 'price-asc') {
+                filtered.sort((a, b) => parseFloat(a.getAttribute('data-price')) - parseFloat(b.getAttribute('data-price')));
+            } else if (sort === 'price-desc') {
+                filtered.sort((a, b) => parseFloat(b.getAttribute('data-price')) - parseFloat(a.getAttribute('data-price')));
+            }
+
+            productGrid.innerHTML = '';
+            filtered.forEach(card => productGrid.appendChild(card));
+        }
+    </script>
+</body>
+</html>
